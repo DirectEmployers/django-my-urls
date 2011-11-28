@@ -1,10 +1,9 @@
 from django import http
-from django.core import request
 from django.conf import settings
 
-from MyUrls.models import MyUrl
+from myurls.models import MyUrl
 
-class ShortyFallbackMiddleware(object):
+class MyUrlsFallbackMiddleware(object):
     """Checks for short URL and redirects on 404s"""
     def process_response(self, request, response):
         if response.status_code != 404:
@@ -13,8 +12,8 @@ class ShortyFallbackMiddleware(object):
         # Get short url and redirect
         try:
             s = MyUrl.objects.get(from_site__iexact=settings.SITE_ID,
-                                   shorty__iexact=)
-        except Redirect.DoesNotExist:
+                                   short_url__iexact=request.path)
+        except MyUrl.DoesNotExist:
             r = None
         if r is None and settings.APPEND_SLASH:
             # Try removing the trailing slash.
@@ -27,8 +26,7 @@ class ShortyFallbackMiddleware(object):
         if r is not None:
             if r.new_path == '':
                 return http.HttpResponseGone()
-
-        if 
+        else:
             return http.HttpResponsePermanentRedirect(r.new_path)
 
         # No redirect was found. Return the response.

@@ -35,14 +35,16 @@ class MyUrl(models.Model):
         (_('307 - temporary'), '307'),
         )
     created = models.DateTimeField(_('Created on'), auto_now_add=True)
-    from_site = models.ForeignKey(Site, related_name="short_urls")
+    site = models.ForeignKey(Site, related_name="short_urls", default=settings.SITE_ID)
     from_url = models.URLField(_('Source URL'), max_length=200,
-        help_text=_('Must start with _'))
-    to_url = models.URLField(_('Destination URL'))
-    shorty = models.CharField(_('Encoded IDdbd'), max_length=10,
+        help_text=_('URL where shorty was created'), null=True, blank=True)
+    to_url = models.URLField(_('Destination URL'),
+        help_text=_('Full URL including scheme (http://, ftp://, etc...'))
+    
+    short_path = models.CharField(_('Encoded IDdbd'), max_length=10,
                               blank=True, null=True, db_index=True)
-    shorty_url = models.URLField(_('Short URL'),
-                                 db_index=True)
+    short_url = models.URLField(_('Short URL'),
+                                 db_index=True, null=True, blank=True)
     redirect_type = models.CharField(_('Redirect Type'),
                                      max_length=3,
                                      choices=CHOICES,
@@ -69,31 +71,27 @@ class MyUrl(models.Model):
         null=True, blank=True,
         help_text=_('Use to differentiate links that point to the same URL'),
         default='myjobs')
-    
-    def shorty(self):
-        """Returns encoded value for shorty"""
-        if self.pk is not '':
-            s = BaseX(self.pk, settings.MYURLS_CHARACTER_SET)
-        else:
-            raise BaseXError(_('Save shorty model before accessing short url'))
-        return s.__str__()
-        # TODO: Need to add some logic to deal with avoiding collisions
-        # with existing URLS.py
+    # TODO add QC fields and a manage.py command to check URLs 
 
     def save(self):
         """Custom save method that saves short URL to database on save()"""
-        # standard presave, super, post save pattern
-        # save the model and let the db create the primary key
-        super(MyUrl, self).save()
-        # then encode the URL
-        s = MyUrl(number=self.pk.__int__(),
-                    character_set=settings.MYURLS_CHARACTER_SET)
-        self.shorty = (s.__str__())
-        # finally, save the model, this time with the short URL.
-        super(MyUrl, self).save()
+        # standard save, populate and save pattern
+        # this lets the db create the primary key, and then allows us
+        # to populate attribues.
+        super(MyUrl, self).save() 
+        if self.short_path == None:
+            # create the short path
+            path = BaseX(number=self.pk)
+            self.short_path = path.encoded
+            # populate the full destination URL
+            self.short_url = u'%s%s/%s' % (settings.MYURLS_DEFAULT_SCHEME, 
+                                          self.site.domain, path)
+        
+        # finally, save the model, this time with the short URL.        
+        super(MyUrl, self).save() 
 
     def __unicode__(self):
-        return u'%s -> %s' % self.shorty_url, self.to_url
+        return u'%s -> %s' % (self.short_url, self.to_url)
 
     
 class Click(models.Model):

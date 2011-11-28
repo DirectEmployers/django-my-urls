@@ -12,10 +12,12 @@ from myurls.models import MyUrl, Click
 
 class MyUrlsList(ListView):
     """implements end user view of short url history"""
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(ProtectedView, self).dispatch(*args.**kwargs)
+    context_object_name = "Url"
+    model =  MyUrl
+    
+    #@method_decorator(login_required)
+    #def dispatch(self, *args, **kwargs):
+    #return super(ProtectedView, self).dispatch(*args.**kwargs)
     
 class MyUrlsDetail(DetailView):
     """implements end user detail view of short url"""
@@ -24,7 +26,7 @@ class MyUrlsDetail(DetailView):
     def dispatch(self, *args, **kwargs):
         return super(ProtectedView, self).dispatch(*args.**kwargs)
 
-class EditURLDetail(FormView)
+class EditURLDetail(FormView):
     """implements end user edit view for short url"""
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):

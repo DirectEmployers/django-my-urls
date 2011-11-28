@@ -1,9 +1,9 @@
 from django.contrib import admin
-from shorty.models import Shorty, Click
+from myurls.models import MyUrl, Click
 
 
-class ShortyOption(admin.ModelAdmin):
+class MyUrlOption(admin.ModelAdmin):
     """Default shorty admin defs"""
     list_display = ('id', 'created', 'shorty_url', 'from_url', 'to_url')
 
-admin.site.register(Shorty, ShortyOption)
+admin.site.register(MyUrl, MyUrlOption)
