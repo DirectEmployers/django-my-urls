@@ -123,3 +123,10 @@ MYURLS_CHARACTER_SET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRST
 # No vowel character set (prevents bad words in URLS)
 # MYURLS_CHARACTER_SET = "0123456789bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ"
 MYURLS_DEFAULT_REDIRECT_TYPE = '302'
+
+# Support for loading local settings for development
+
+try:
+    from local_settings import *
+except:
+    pass
