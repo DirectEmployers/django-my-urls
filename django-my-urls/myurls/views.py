@@ -7,7 +7,7 @@ from django.views.generic import DetailView, ListView
 from django.template import RequestContext
 from django.utils.translation import ugettext, ugettext_lazy as _
 
-from myurls.models import Shorty, Click
+from myurls.models import MyUrl, Click
 
 
 class MyUrlsList(ListView):

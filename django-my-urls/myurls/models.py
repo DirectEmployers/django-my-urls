@@ -2,11 +2,10 @@ from django.db import models
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from basex import BaseX, BaseXError
 from django.conf import settings
+from basex import BaseX, BaseXError
 
-
-class Shorty(models.Model):
+class MyUrl(models.Model):
     """Short url model. Domains are pulled from the django.contrib.sites.
 
     Short URLs are this models PK encoded in baseX using
@@ -84,13 +83,13 @@ class Shorty(models.Model):
         """Custom save method that saves short URL to database on save()"""
         # standard presave, super, post save pattern
         # save the model and let the db create the primary key
-        super(Shorty, self).save()
+        super(MyUrl, self).save()
         # then encode the URL
-        s = Shorty(number=self.pk.__int__(),
+        s = MyUrl(number=self.pk.__int__(),
                     character_set=settings.SHORTY_CHARACTER_SET)
         self.shorty = (s.__str__())
         # finally, save the model, this time with the short URL.
-        super(Shorty, self).save()
+        super(MyUrl, self).save()
 
     def __unicode__(self):
         return u'%s -> %s' % self.shorty_url, self.to_url

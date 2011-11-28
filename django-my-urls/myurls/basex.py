@@ -1,4 +1,5 @@
 class BaseXError(Exception):
+    """Basex error handler"""
     def __init__(self, value):
         self.value = value
 

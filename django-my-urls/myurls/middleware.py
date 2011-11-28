@@ -2,7 +2,7 @@ from django import http
 from django.core import request
 from django.conf import settings
 
-from shorty.models import Shorty
+from MyUrls.models import MyUrl
 
 class ShortyFallbackMiddleware(object):
     """Checks for short URL and redirects on 404s"""
@@ -12,7 +12,7 @@ class ShortyFallbackMiddleware(object):
         path = request.get_full_path()
         # Get shorty and redirect
         try:
-            s = Shorty.objects.get(from_site__iexact=settings.SITE_ID,
+            s = MyUrl.objects.get(from_site__iexact=settings.SITE_ID,
                                    shorty__iexact=)
         except Redirect.DoesNotExist:
             r = None
