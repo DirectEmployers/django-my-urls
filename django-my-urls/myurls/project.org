@@ -1,0 +1,43 @@
+* Shorty - A URL Shortner
+URL Shortners serve five functions:
+
+1. Make it easier to share links in fewer characters. (short URLs or shorties)
+   http://arinc.jobs/san-diego-ca/senior-electrical-engineer/19716289/job  becomes http://my.jobs/aU302q
+
+2. Making URLs easier to remember and share person to person. (mnemonic URLs)
+   http://arinc.jobs/san-diego-ca/senior-electrical-engineer/19716289/job/ becomes http://my.jobs/arinc/senior-ee
+
+3. Making links have greater SEO value. (SEO URLs)
+   http://arinc.jobs/san-diego-ca/senior-electrical-engineer/19716289/job/ becomes http://my.jobs/keyword/keyword/keyword
+
+4. Making it possible to track clicks on third party websites.
+
+5. Making it possible to measure who is placing links.
+
+   e.g. Search on twitter for links containing my.jobs/arinc
+
+* Django Instructioins
+
+** Settings
+*** SHORTY_CHARACTER_SET = "ABCabc123"
+The character set used to encode URLs with. The default is all english language lowercase letters, uppercase letters and numerals. 
+*** SHORTY_DEFAULT_REDIRECT = '301'
+Default redirect to use for short URLS. 301, 302 and 303 are all valid choices. This default can be overridden when a short url is created and chan be changed by editing the Shorty.redirect_type attribute.
+** Using MyUrls 
+Two methods are provided for implementing short URL redirection:
+a 404 FallbackMiddleWare and a view. 
+*** When to use the FallBackMiddleWare:
+- When every URL except those in URLs.py are short URLs
+- eg. mysite.com/si11S
+*** When to use the view based redirector:
+- When you need all URLs following a URL pattern to be redirected.
+- eg. mysite.com/click/si11S
+
+* URL Specification
+** Pitfalls
+- Care must be taken to only allow only valid characters
+** Avoiding url confusion
+my.jobs serves as hub for interaction with .jobs web applications. 
+That means that some urls may be in use.
+*** Short URLs
+Short URLs are encoded using a user supplied character set.
