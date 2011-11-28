@@ -117,3 +117,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'myurls',
 )
+
+# MyUrl Specific Settings
+MYURLS_CHARACTER_SET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+# No vowel character set (prevents bad words in URLS)
+# MYURLS_CHARACTER_SET = "0123456789bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ"
+MYURLS_DEFAULT_REDIRECT_TYPE = '302'

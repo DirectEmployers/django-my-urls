@@ -10,7 +10,7 @@ class ShortyFallbackMiddleware(object):
         if response.status_code != 404:
             return response
         path = request.get_full_path()
-        # Get shorty and redirect
+        # Get short url and redirect
         try:
             s = MyUrl.objects.get(from_site__iexact=settings.SITE_ID,
                                    shorty__iexact=)
