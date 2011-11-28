@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from basex import BaseX, BaseXError
+from django.conf import settings
 
 class MyUrl(models.Model):
     """Short url model. Domains are pulled from the django.contrib.sites.
@@ -45,7 +46,7 @@ class MyUrl(models.Model):
     redirect_type = models.CharField(_('Redirect Type'),
                                      max_length=3,
                                      choices=CHOICES,
-                                     default='301')
+                                     default=settings.MYURLS_DEFAULT_REDIRECT_TYPE)
     notes = models.TextField(_('Notes'), null=True, blank=True)
     created = models.DateTimeField(_('Created Date and Time'),
                                    auto_now_add=True)
@@ -72,7 +73,7 @@ class MyUrl(models.Model):
     def shorty(self):
         """Returns encoded value for shorty"""
         if self.pk is not '':
-            s = BaseX(self.pk, settings.SHORTY_CHARACTER_SET)
+            s = BaseX(self.pk, settings.MYURLS_CHARACTER_SET)
         else:
             raise BaseXError(_('Save shorty model before accessing short url'))
         return s.__str__()
@@ -86,7 +87,7 @@ class MyUrl(models.Model):
         super(MyUrl, self).save()
         # then encode the URL
         s = MyUrl(number=self.pk.__int__(),
-                    character_set=settings.SHORTY_CHARACTER_SET)
+                    character_set=settings.MYURLS_CHARACTER_SET)
         self.shorty = (s.__str__())
         # finally, save the model, this time with the short URL.
         super(MyUrl, self).save()
