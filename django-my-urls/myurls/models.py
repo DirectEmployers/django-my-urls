@@ -137,13 +137,21 @@ class Click(models.Model):
     site = models.ForeignKey(Site, null=True, blank=True)
     # We can have anonymous users, so there may be no relationship here
     user = models.ForeignKey(User, null=True, related_name="short_url_history")
-    visitor = models.ForeignKey(User, blank=True, null=True)
     destination_url = models.URLField(_('Destination  URL'), max_length=200,
         help_text=_('Destination at the time the link was clicked'))
-    destination_domain = models.CharField(_('Destination Domain'), max_length=200,
+    destination_domain = models.CharField(_('Destination Domain'), 
+        max_length=200,
         help_text=_('Destination Domain at the time the link was clicked'))
+    redirect_url = models.URLField(_('Redirect URL'), max_length=200,
+                                   null=True, blank=True)
     created = models.DateTimeField(_('Date & Time'), auto_now_add=True)
     # Optional Referrer Info (it is impossible to know the unknowable)
+    user_agent = models.CharField(_('Visitor User Agent'), max_length=300, 
+                                  null=True, blank=True)
+    user_ip = models.IPAddressField(_('Visitor IP Address'), 
+                                    null=True, blank=True)
+    user_language = models.charfield(_('Visitor Languages'), null=True, 
+                                     blank=True)
     referrer_url = models.URLField(_('Referring URL'), max_length=200,
                                    null=True, blank=True)
     referrer_domain = models.CharField(_('Referring Domain'), max_length=200,
