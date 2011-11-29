@@ -124,14 +124,16 @@ class MyUrl(models.Model):
             # tack on append text with ? 
             if self.append_text is not None:
                 self.redirect_url = u'%s?%s' %(self.redirect_url,
-                                           self.append_text)        
-
+                                           self.append_text)
+                
     def __unicode__(self):
         return u'%s -> %s' % (self.short_url, self.to_url)
 
     
 class Click(models.Model):
     """Model for storing click history."""
+    myurl = models.Foreignkey(MyUrl, related_name="clicks")
+    user = models.ForeignKey(User, related_name="clicks", null=true, blank=True)    
     site = models.ForeignKey(Site, null=True, blank=True)
     # We can have anonymous users, so there may be no relationship here
     user = models.ForeignKey(User, null=True, related_name="short_url_history")

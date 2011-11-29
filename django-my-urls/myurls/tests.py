@@ -81,6 +81,7 @@ class ModelMyUrlTest (TestCase):
         # Test appended stuff
         self.assertEqual(m.redirect_url,
             u'http://directemployersfoundation.org?utm_campaign=1&utm_term=narf&utm_content=stringsandstrings&utm_medium=test&utm_source=clouds&gianttrex')
+        
     def test_change_myurl(self):
         """Test saving change in myurl"""
         # create a MyURL with different site
