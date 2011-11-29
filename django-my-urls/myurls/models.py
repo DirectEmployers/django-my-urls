@@ -34,6 +34,7 @@ class MyUrl(models.Model):
         (_('303 - see other'), '303'),
         (_('307 - temporary'), '307'),
         )
+    user = models.ForeignKey(_(User, related name='short_urls'
     created = models.DateTimeField(_('Created on'), auto_now_add=True)
     site = models.ForeignKey(Site, related_name="short_urls",
                              default=settings.SITE_ID)
@@ -59,7 +60,7 @@ class MyUrl(models.Model):
                                   max_length=80,
                                   null=True,
                                   blank=True,
-                                  default='myjobs')
+                                  default=MYURLS_DEFAULT_URM_SOURCE)
     utm_medium = models.CharField(_('Analytics medium'), max_length=80,
         null=True, blank=True, default=settings.MYURLS_DEFAULT_UTM_MEDIUM,
         help_text=_('Media for this campaign (cpc, email, social)'))
@@ -82,13 +83,18 @@ class MyUrl(models.Model):
         super(MyUrl, self).save() 
         if self.short_path == None:
             # create the short path
-            path = BaseX(number=self.pk)
+            path = BaseX(number=self.pk) # Here be the magic
             self.short_path = path.encoded
-            # populate the full destination URL
+            # populate the full short URL for later use
             self.short_url = u'%s%s/%s' % (settings.MYURLS_DEFAULT_SCHEME, 
-                                           self.site.domain, path)            
+                                           self.site.domain, path)
+            # Populate the redirect URL
+            self._create_redirect_url()
+            # finally, save the model, this time with the short URL.        
+            super(MyUrl, self).save()
+            
     def _create_redirect_url(self):
-        """Creates a full redirect URL"""
+        """Checks settigns for MYURLS_USE_UTM and creates a full redirect URL"""
         if settings.MYURLS_USE_UTM == True:
             self.redirect_url = 'u%s?utm_campaign=%s' % (self.to_url,
                 self.utm_campaign)
@@ -98,11 +104,14 @@ class MyUrl(models.Model):
             if self.utm_content is not None:
                 self.redirect_url = u'%s&utm_content=%s' % s(self.redirect_url, 
                                                              self.utm_content)
+            if self.utm_medium is not None:
+                self.redirect_url = u'%s&utm_medium=%s' % s(self.redirect_url,
+                                                            self.utm_medium)
+            if self.utm_source is not None:
+                self.redirect_url = u'%s&utm_source=%s' % s(self.redirect_url,
+                                                            self.utm_source)
         else:
             self.redirect_url = self.to_url
-            
-        # finally, save the model, this time with the short URL.        
-        super(MyUrl, self).save() 
 
     def __unicode__(self):
         return u'%s -> %s' % (self.short_url, self.to_url)
