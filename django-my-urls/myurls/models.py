@@ -34,7 +34,7 @@ class MyUrl(models.Model):
         (_('303 - see other'), '303'),
         (_('307 - temporary'), '307'),
         )
-    user = models.ForeignKey(_(User, related name='short_urls'
+    user = models.ForeignKey(User, related_name='short_urls')
     created = models.DateTimeField(_('Created on'), auto_now_add=True)
     site = models.ForeignKey(Site, related_name="short_urls",
                              default=settings.SITE_ID)
@@ -60,19 +60,23 @@ class MyUrl(models.Model):
                                   max_length=80,
                                   null=True,
                                   blank=True,
-                                  default=MYURLS_DEFAULT_URM_SOURCE)
+                                  default=settings.MYURLS_DEFAULT_UTM_SOURCE)
     utm_medium = models.CharField(_('Analytics medium'), max_length=80,
         null=True, blank=True, default=settings.MYURLS_DEFAULT_UTM_MEDIUM,
         help_text=_('Media for this campaign (cpc, email, social)'))
     utm_term = models.CharField(_('Analytics term'), max_length=120, null=True,
         blank=True, help_text=_('Keyword for this URL'))
     utm_content = models.CharField(_('Analytics Content'), max_length=80,
-        null=True, blank=True, default = settings.MYURLS_DEFAULT_CONTENT,
+        null=True, blank=True, default = settings.MYURLS_DEFAULT_UTM_CONTENT,
         help_text=_('Use to differentiate links that point to the same URL'))
     utm_campaign = models.CharField(_('Analytics Content'), max_length=80,
         null=True, blank=True,
         help_text=_('Use to differentiate links that point to the same URL'),
-        default = settings.MYRULS_DEFAULT_UTM_CAMPAIGN)
+        default = settings.MYURLS_DEFAULT_UTM_CAMPAIGN)
+    append = models.CharField(_('Append to URL'), max_length=80, null=True,
+        blank=True,
+        help_text=_('Additional text to append to url after &'),
+        default = settings.MYURLS_DEFAULT_APPEND)
     # TODO add QC fields and a manage.py command to check URLs 
 
     def save(self):
@@ -81,6 +85,7 @@ class MyUrl(models.Model):
         # this lets the db create the primary key, and then allows us
         # to populate attribues.
         super(MyUrl, self).save() 
+        # create a short url if one isn't there
         if self.short_path == None:
             # create the short path
             path = BaseX(number=self.pk) # Here be the magic
@@ -88,37 +93,45 @@ class MyUrl(models.Model):
             # populate the full short URL for later use
             self.short_url = u'%s%s/%s' % (settings.MYURLS_DEFAULT_SCHEME, 
                                            self.site.domain, path)
-            # Populate the redirect URL
-            self._create_redirect_url()
-            # finally, save the model, this time with the short URL.        
-            super(MyUrl, self).save()
+        # Populate the redirect URL
+        self._create_redirect_url()
+        # finally, save the model, this time with the short URL.        
+        super(MyUrl, self).save()
             
     def _create_redirect_url(self):
         """Checks settigns for MYURLS_USE_UTM and creates a full redirect URL"""
         if settings.MYURLS_USE_UTM == True:
-            self.redirect_url = 'u%s?utm_campaign=%s' % (self.to_url,
+            self.redirect_url = u'%s?utm_campaign=%s' % (self.to_url,
                 self.utm_campaign)
             if self.utm_term is not None:
-                self.redirect_url = u'%s&utm_term=%s' % s(self.redirect_url, 
+                self.redirect_url = u'%s&utm_term=%s' % (self.redirect_url, 
                                                           self.utm_term)
             if self.utm_content is not None:
-                self.redirect_url = u'%s&utm_content=%s' % s(self.redirect_url, 
+                self.redirect_url = u'%s&utm_content=%s' % (self.redirect_url, 
                                                              self.utm_content)
             if self.utm_medium is not None:
-                self.redirect_url = u'%s&utm_medium=%s' % s(self.redirect_url,
+                self.redirect_url = u'%s&utm_medium=%s' % (self.redirect_url,
                                                             self.utm_medium)
             if self.utm_source is not None:
-                self.redirect_url = u'%s&utm_source=%s' % s(self.redirect_url,
+                self.redirect_url = u'%s&utm_source=%s' % (self.redirect_url,
                                                             self.utm_source)
+            # Tack on append text with &
+            if self.append_text is not None:
+                self.redirect_url = u'%s&%s' %(self.redirect_url,
+                                               self.append_text)        
         else:
             self.redirect_url = self.to_url
+            # tack on append text with ? 
+            if self.append_text is not None:
+                self.redirect_url = u'%s?%s' %(self.redirect_url,
+                                           self.append_text)        
 
     def __unicode__(self):
         return u'%s -> %s' % (self.short_url, self.to_url)
 
     
 class Click(models.Model):
-    """Stores click history"""
+    """Model for storing click history."""
     site = models.ForeignKey(Site, null=True, blank=True)
     # We can have anonymous users, so there may be no relationship here
     user = models.ForeignKey(User, null=True, related_name="short_url_history")

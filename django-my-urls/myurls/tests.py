@@ -1,13 +1,9 @@
-"""
-tests.py -- Test suite for the Shorty App
-"""
-
 from django.test import TestCase
 from basex import BaseX, BaseXError
-
-
+from models import MyUrl
+from django.conf import settings
 class BaseXTest(TestCase):
-    """Test suite for BaseX.py library"""
+    """Test suite for basex.py library"""
 
     def test_basex_encoding(self):
         """Test basex with an integer"""
@@ -51,3 +47,23 @@ class BaseXTest(TestCase):
     def test_basex_no_input(self):
         """Test exception raised if no value supplied for number or encoded"""
         self.assertRaises(BaseXError, BaseX)
+
+
+class ModelMyUrlTest (TestCase):
+    """Test suite for MyURL Model"""
+    
+    test_url = "http://directemployersfoundation.org"
+    def test_create_myurl(self):
+        """Test creation of myurl"""
+        # create a MyURL
+        m = MyURL(to_url=self.test_url)
+        # save it
+        m.save()
+        # check that it worked
+        self.assertEqual(m.to_url, self.test_url)
+        
+        
+    def test__redirecturl(self):
+        """Test creation of redirection url"""
+    def test_change_myurl(self):
+        """Test saving change in myurl"""
