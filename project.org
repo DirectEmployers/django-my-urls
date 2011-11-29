@@ -1,20 +1,22 @@
-* Shorty - A URL Shortner
-URL Shortners serve five functions:
+* Django MyUrls - A URL Shortner and click server
+** URL Shortners:
 
 1. Make it easier to share links in fewer characters. (short URLs or shorties)
-   http://arinc.jobs/san-diego-ca/senior-electrical-engineer/19716289/job  becomes http://my.jobs/aU302q
+   http://arinc.jobs/san-diego-ca/senior-electrical-engineer/19716289/job becomes something like  http://my.jobs/aU302q
 
-2. Making URLs easier to remember and share person to person. (mnemonic URLs)
-   http://arinc.jobs/san-diego-ca/senior-electrical-engineer/19716289/job/ becomes http://my.jobs/arinc/senior-ee
+2. Make it possible to track clicks on third party websites.
 
-3. Making links have greater SEO value. (SEO URLs)
-   http://arinc.jobs/san-diego-ca/senior-electrical-engineer/19716289/job/ becomes http://my.jobs/keyword/keyword/keyword
+3. Make it possible to measure sharing of links.
 
-4. Making it possible to track clicks on third party websites.
+** Click Servers:
 
-5. Making it possible to measure who is placing links.
+1. Make it possible to track clicks from third party websites.
 
-   e.g. Search on twitter for links containing my.jobs/arinc
+2. Make it possible to measure sharing of links
+
+3. Obfuscating and hiding url content. Users see http://mysite.com/32kd. Clickers are redirected to http://contestwinner.com/you/win?utm_medium=web
+
+** Django MyUrls serves both functions.
 
 * Django Instructioins
 
