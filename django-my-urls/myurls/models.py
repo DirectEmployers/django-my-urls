@@ -73,7 +73,7 @@ class MyUrl(models.Model):
         null=True, blank=True,
         help_text=_('Use to differentiate links that point to the same URL'),
         default = settings.MYURLS_DEFAULT_UTM_CAMPAIGN)
-    append = models.CharField(_('Append to URL'), max_length=80, null=True,
+    append_text = models.CharField(_('Append to URL'), max_length=80, null=True,
         blank=True,
         help_text=_('Additional text to append to url after &'),
         default = settings.MYURLS_DEFAULT_APPEND)

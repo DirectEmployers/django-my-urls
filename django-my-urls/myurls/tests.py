@@ -1,7 +1,11 @@
 from django.test import TestCase
+from django.conf import settings
+from django.contrib.sites.models import Site
+
 from basex import BaseX, BaseXError
 from models import MyUrl
-from django.conf import settings
+
+
 class BaseXTest(TestCase):
     """Test suite for basex.py library"""
 
@@ -54,16 +58,47 @@ class ModelMyUrlTest (TestCase):
     
     test_url = "http://directemployersfoundation.org"
     def test_create_myurl(self):
-        """Test creation of myurl"""
+        """Test creation of myurl"""        
         # create a MyURL
-        m = MyURL(to_url=self.test_url)
+        m = MyUrl(to_url=self.test_url,
+                  user_id = '1',
+                  utm_campaign='1',
+                  utm_term='narf', 
+                  utm_medium='test',
+                  utm_source='clouds',
+                  utm_content='stringsandstrings',
+                  append_text='gianttrex')
         # save it
         m.save()
         # check that it worked
         self.assertEqual(m.to_url, self.test_url)
-        
-        
-    def test__redirecturl(self):
-        """Test creation of redirection url"""
+        # calculate basex for pk
+        s = BaseX(m.pk)
+        url = Site.objects.get(pk=1).domain
+        url = u'%s%s/%s' % (settings.MYURLS_DEFAULT_SCHEME, url, s.encoded)
+        # Test short URL
+        self.assertEqual(m.short_url, url)
+        # Test appended stuff
+        self.assertEqual(m.redirect_url,
+            u'http://directemployersfoundation.org?utm_campaign=1&utm_term=narf&utm_content=stringsandstrings&utm_medium=test&utm_source=clouds&gianttrex')
     def test_change_myurl(self):
         """Test saving change in myurl"""
+        # create a MyURL with different site
+        m = MyUrl(to_url=self.test_url,
+                  user_id = '1',
+                  utm_campaign='1',
+                  utm_term='narf', 
+                  utm_medium='test',
+                  utm_source='clouds',
+                  utm_content='stringsandstrings',
+                  append_text='gianttrex')
+        # Save it
+        m.save()
+        # change the site
+        m.to_url = u'http://schmuckatelli.com'
+        m.save()
+        # make sure save updates redirect_url
+        self.assertEqual(m.to_url, u'http://schmuckatelli.com')
+        self.assertEqual(m.redirect_url, 
+            u'http://schmuckatelli.com?utm_campaign=1&utm_term=narf&utm_content=stringsandstrings&utm_medium=test&utm_source=clouds&gianttrex')
+        
