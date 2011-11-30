@@ -9,25 +9,40 @@ class MyUrlsFallbackMiddleware(object):
         if response.status_code != 404:
             return response
         path = request.get_full_path()
-        # Get short url and redirect
-        try:
-            s = MyUrl.objects.get(from_site__iexact=settings.SITE_ID,
-                                   short_url__iexact=request.path)
-        except MyUrl.DoesNotExist:
-            r = None
-        if r is None and settings.APPEND_SLASH:
-            # Try removing the trailing slash.
+        # get the myurl - even if someone appends a trailing /
+        if path.endswith('/'):
             try:
-                r = Redirect.objects.get(site__id__exact=settings.SITE_ID,
-                    old_path=path[:path.rfind('/')]+path[path.rfind('/')+1:])
-            # Fail gracefully so another middleware can grab response
-            except Redirect.DoesNotExist:
+                myurl = MyUrl(site__id__exact=settings.SITE_ID,
+                              short_path=path[:path.rfind('/')]+path[path.rfind('/')+1:])
+            except MyUrl.DoesNotExist:
                 pass
-        if r is not None:
+        else:
+            try:
+                myurl = MyUrl.objects.get(from_site__exact=settings.SITE_ID,
+                                          short_url__exact=request.path)
+            except MyUrl.DoesNotExist:
+                pass
+        # Makes sure we are not redirecting to nowhere
+        if myurl is not None:
             if r.new_path == '':
                 return http.HttpResponseGone()
         else:
-            return http.HttpResponsePermanentRedirect(r.new_path)
-
-        # No redirect was found. Return the response.
+            # create and save the click history
+            click = Click(myurl=myurl,
+                          destination_url=myurl.destination_url,
+                          redirect_url=myurl.redirect_url,
+                          referrer_domain=request.META.HTTP_REMOTE_HOST,
+                          referrer_url=request.META.HTTP_REFERRER,
+                          site=Site.objects.get_current(),
+                          user=request.user,
+                          user_ip=request.META.HTTP_HOST,
+                          user_language=request.META.HTTP_ACCEPT_LANGUAGE,
+                          user_agent=request.META.HTTP_USER_AGENT)
+            click.save()
+            # do the redirect
+            if myurl.redirect_type == '301':
+                return http.HttpResponsePermanentRedirect(myurl.redirect_url)
+            else:
+                return http.HttpResponseRedirect(myurl.redirect_url)
+            # No MyUrl was found. Let Django deal with it.
         return response

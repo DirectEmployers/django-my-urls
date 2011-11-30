@@ -26,13 +26,15 @@ class MyUrl(models.Model):
     utm_term -- Google analytics search keyword
     utm_content -- Google analytics content
     utm_campaign -- Google analytics campaign
+    append_text -- Extra text to be appended after a & or ? in url
     """
 
     CHOICES = (
         (_('301 - permanent'), '301'),
         (_('302 - unspecified'), '302'),
-        (_('303 - see other'), '303'),
-        (_('307 - temporary'), '307'),
+        # Right now Django does not support these:
+        #(_('303 - see other'), '303'),
+        #(_('307 - temporary'), '307'),
         )
     user = models.ForeignKey(User, related_name='short_urls')
     created = models.DateTimeField(_('Created on'), auto_now_add=True)
