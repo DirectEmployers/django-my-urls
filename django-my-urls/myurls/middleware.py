@@ -31,7 +31,7 @@ class MyUrlsFallbackMiddleware(object):
         else:
             # create and save the click history
             click = Click(myurl=myurl,
-                          destination_url=myurl.destination_url,
+                          to_url=myurl.to_url,
                           redirect_url=myurl.redirect_url,
                           referrer_domain=request.META.HTTP_REMOTE_HOST,
                           referrer_url=request.META.HTTP_REFERRER,

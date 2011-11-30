@@ -57,7 +57,7 @@ class ModelClickTest(TestCase):
     
     def test_create_click(self):
         """Test that clicks are created"""
-        m = MyUrl(to_url="http://example.com",
+        myurl = MyUrl(to_url="http://example.com",
                   user_id = '1',
                   utm_campaign='1',
                   utm_term='narf', 
@@ -65,19 +65,19 @@ class ModelClickTest(TestCase):
                   utm_source='clouds',
                   utm_content='stringsandstrings',
                   append_text='gianttrex')
-        m.save()
-        click = Click (myurl=m,
-                      destination_url=myurl.destination_url,
+        myurl.save()
+        click = Click (myurl=myurl,
+                      to_url=myurl.to_url,
                       redirect_url=myurl.redirect_url,
                       referrer_domain='referrerhost.com',
                       referrer_url='referrerhost.com/url',
                       site=Site.objects.get_current(),
-                      user=request.user,
+                      user_id='1',
                       user_ip='192.168.1.1',
                       user_language='language',
                       user_agent='awesome')
         click.save()
-        self.assertEqual(click, Click.objects.get(pk=click.pk)
+        self.assertEqual(click, Click.objects.get(pk=click.pk))
 
 class ModelMyUrlTest(TestCase):
     """Test suite for MyURL Model"""
