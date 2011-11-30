@@ -140,7 +140,7 @@ class Click(models.Model):
     user = models.ForeignKey(User, null=True, related_name="short_url_history")
     to_url = models.URLField(_('Destination  URL'), max_length=200,
         help_text=_('Destination at the time the link was clicked'))
-    destination_domain = models.CharField(_('Destination Domain'), 
+    to_domain = models.CharField(_('Destination Domain'), 
         max_length=200,
         help_text=_('Destination Domain at the time the link was clicked'))
     redirect_url = models.URLField(_('Redirect URL'), max_length=200,
