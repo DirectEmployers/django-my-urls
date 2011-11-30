@@ -5,7 +5,9 @@ from myurls.models import MyUrl
 
 class MyUrlsFallbackMiddleware(object):
     """Checks for short URL and redirects on 404s"""
+       
     def process_response(self, request, response):
+        """Accepts a Django request and redirects to a matching myurl"""
         if response.status_code != 404:
             return response
         path = request.get_full_path()

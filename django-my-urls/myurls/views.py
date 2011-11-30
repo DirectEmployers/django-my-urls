@@ -1,15 +1,8 @@
-from django.shortcuts import render_to_response
-from django.http import HttpResponseRedirect, HttpResponseForbidden, Http404
-from django.contrib.models import User
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.views.generic import DetailView, ListView, FormView
-from django.template import RequestContext
-from django.utils.translation import ugettext, ugettext_lazy as _
+from django.http import HttpResponseRedirect, HttpResponsePermanentRedirect, Http404
 from django.contrib.sites.models import Site
 from myurls.models import MyUrl, Click
 
-def do_click(response, path):
+def do_click(request, path):
     """takes a request, finds a MyUrl or raises a 404"""
     if request.method == "GET":
         # see if we have a match if not, 404!
@@ -30,4 +23,7 @@ def do_click(response, path):
                       user_agent=request.META.HTTP_USER_AGENT)
         click.save()
         # do the redirect
-        HttpResponseRedirect(myurl.redirect_url)
+        if myurl.redirect_type == '301':
+            return HttpResponsePermanentRedirect(myurl.redirect_url)
+        else:
+            return HttpResponseRedirect(myurl.redirect_url)

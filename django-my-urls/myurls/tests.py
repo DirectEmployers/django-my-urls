@@ -52,8 +52,12 @@ class BaseXTest(TestCase):
         """Test exception raised if no value supplied for number or encoded"""
         self.assertRaises(BaseXError, BaseX)
 
+class ModelClickTest(TestCase):
+    """Test suite for click model"""
+    
+    
 
-class ModelMyUrlTest (TestCase):
+class ModelMyUrlTest(TestCase):
     """Test suite for MyURL Model"""
     
     test_url = "http://directemployersfoundation.org"

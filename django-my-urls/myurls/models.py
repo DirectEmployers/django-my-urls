@@ -3,8 +3,7 @@ from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
-from basex import BaseX, BaseXError
-from django.conf import settings
+from basex import BaseX
 
 class MyUrl(models.Model):
     """Short url model. Domains are pulled from the django.contrib.sites.
@@ -44,10 +43,10 @@ class MyUrl(models.Model):
         help_text=_('URL where shorty was created'), null=True, blank=True)
     to_url = models.URLField(_('Destination URL'),
         help_text=_('Full URL including scheme (http://, ftp://, etc...'))
-    redirect_url=models.URLField(_('URL to send user to'), max_length=300, 
+    redirect_url = models.URLField(_('URL to send user to'), max_length=300, 
                                  blank=True, null=True)
-    short_path = models.CharField(_('Encoded IDdbd'), max_length=10,
-                              blank=True, null=True, db_index=True)
+    short_path = models.CharField(_('Encoded Path'), max_length=10,
+                                  blank=True, null=True, db_index=True)
     short_url = models.URLField(_('Short URL'),
                                  db_index=True, null=True, blank=True)
     redirect_type = models.CharField(_('Redirect Type'),
@@ -79,14 +78,14 @@ class MyUrl(models.Model):
         blank=True,
         help_text=_('Additional text to append to url after &'),
         default = settings.MYURLS_DEFAULT_APPEND)
-    # TODO add QC fields and a manage.py command to check URLs 
+    # add QC fields and a manage.py command to check URLs 
 
-    def save(self):
+    def save(self, *args, **kwargs):
         """Custom save method that saves short URL to database on save()"""
         # standard save, populate and save pattern
         # this lets the db create the primary key, and then allows us
         # to populate attribues.
-        super(MyUrl, self).save() 
+        super(MyUrl, self).save(*args, **kwargs) 
         # create a short url if one isn't there
         if self.short_path == None:
             # create the short path
@@ -98,7 +97,7 @@ class MyUrl(models.Model):
         # Populate the redirect URL
         self._create_redirect_url()
         # finally, save the model, this time with the short URL.        
-        super(MyUrl, self).save()
+        super(MyUrl, self).save(*args, **kwargs)
             
     def _create_redirect_url(self):
         """Checks settigns for MYURLS_USE_UTM and creates a full redirect URL"""
@@ -119,14 +118,14 @@ class MyUrl(models.Model):
                                                             self.utm_source)
             # Tack on append text with &
             if self.append_text is not None:
-                self.redirect_url = u'%s&%s' %(self.redirect_url,
-                                               self.append_text)        
+                self.redirect_url = u'%s&%s' % (self.redirect_url, 
+                                                self.append_text)        
         else:
             self.redirect_url = self.to_url
             # tack on append text with ? 
             if self.append_text is not None:
-                self.redirect_url = u'%s?%s' %(self.redirect_url,
-                                           self.append_text)
+                self.redirect_url = u'%s?%s' % (self.redirect_url, 
+                                                self.append_text)
                 
     def __unicode__(self):
         return u'%s -> %s' % (self.short_url, self.to_url)
@@ -134,8 +133,8 @@ class MyUrl(models.Model):
     
 class Click(models.Model):
     """Model for storing click history."""
-    myurl = models.Foreignkey(MyUrl, related_name="clicks")
-    user = models.ForeignKey(User, related_name="clicks", null=true, blank=True)    
+    myurl = models.ForeignKey(MyUrl, related_name="clicks")
+    user = models.ForeignKey(User, related_name="clicks", null=True, blank=True)
     site = models.ForeignKey(Site, null=True, blank=True)
     # We can have anonymous users, so there may be no relationship here
     user = models.ForeignKey(User, null=True, related_name="short_url_history")
@@ -158,7 +157,11 @@ class Click(models.Model):
                                    null=True, blank=True)
     referrer_domain = models.CharField(_('Referring Domain'), max_length=200,
                                        null=True, blank=True)
+    
+    def __unicode__(self):
+        return self.myurl.short_url
 
     class Meta:
+        """Meta settings for Click object"""
         ordering = ['-created']
         verbose_name = _('Short URL History')
