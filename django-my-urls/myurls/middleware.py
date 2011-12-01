@@ -20,7 +20,7 @@ class MyUrlsFallbackMiddleware(object):
                 return response
         else:
             try:
-                myurl = MyUrl.objects.get(hort_url__exact=request.path)
+                myurl = MyUrl.objects.get(short_url__exact=request.path)
             except MyUrl.DoesNotExist:
                 return response
                 # need to put somethign here for failed clicks.
