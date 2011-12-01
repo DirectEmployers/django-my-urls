@@ -5,8 +5,9 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^myurls/', include('myurls.urls')),
     (r'^admin/', include(admin.site.urls)),
+    (r'^create/?P<url>/$P<utm_source>/$P<utm_medium>/$P<utm_campaign>$', 
+      'views.create_myurl')
 )
 
 urlpatterns = urlpatterns + patterns('',
