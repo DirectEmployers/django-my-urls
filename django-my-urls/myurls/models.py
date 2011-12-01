@@ -16,7 +16,7 @@ class MyUrl(models.Model):
     from_site -- Site responsible for creating the shorty
     from_url -- URL responsible for creating the shorty
     to_url -- the destination URL
-    shorty -- the short URL
+    short_path -- the short URL's path
     redirect_type -- the type of redirect to return
     notes -- user notes
     created -- creation timestamp

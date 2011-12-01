@@ -127,6 +127,7 @@ MYURLS_DEFAULT_REDIRECT_TYPE = '302'
 MYURLS_DEFAULT_SCHEME = 'http://'
 MYURLS_ALLOW_ALL_SITES = True
 MYURLS_USE_UTM = True
+MYURLS_DEFAULT_VIEW_PREFIX = 'myurl' # default prefix for view based redirector
 MYURLS_DEFAULT_UTM_CAMPAIGN = 'myurls' # campaign name for clicks
 MYURLS_DEFAULT_UTM_MEDIUM = 'web' # something like web, email, smoke signals
 MYURLS_DEFAULT_UTM_SOURCE = 'mysite' # identifies source of traffic

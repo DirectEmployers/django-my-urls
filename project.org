@@ -47,12 +47,13 @@ a 404 FallbackMiddleWare and a view.
 ** TODO Example App
 - [X] Create Short URL
 - [X] Click Redirect with Middleware
-- [ ] Click Redirect with View
-- [ ] List short URLs (class based) 
+- [X] Click Redirect with View
+- [X] List short URLs (class based) 
+- [ ] Class based view generic template
 ** TODO Unit Tests
 - [X] models
 - [X] basex
-- [ ] middleware
+- [X] middleware
 - [ ] view
 ** TODO Marketing Plan Groundwork
 - [ ] documentation
