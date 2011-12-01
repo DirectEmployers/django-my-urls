@@ -7,7 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
-    (r'^create/?P<url>/$', 'views.create_myurl'),
+    (r'^create/(?P<url>.*)', create_myurl),
     (r'^list$', MyUrlsList.as_view()),
 )
 

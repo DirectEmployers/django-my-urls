@@ -26,6 +26,10 @@ class MyUrl(models.Model):
     utm_content -- Google analytics content
     utm_campaign -- Google analytics campaign
     append_text -- Extra text to be appended after a & or ? in url
+    
+    Methods:
+    
+    save(*args, **kwargs) -- creates short URL and saves to database.
     """
 
     CHOICES = (
@@ -35,7 +39,8 @@ class MyUrl(models.Model):
         #(_('303 - see other'), '303'),
         #(_('307 - temporary'), '307'),
         )
-    user = models.ForeignKey(User, related_name='short_urls')
+    user = models.ForeignKey(User, related_name='short_urls', 
+                             null= True, blank=True)
     created = models.DateTimeField(_('Created on'), auto_now_add=True)
     site = models.ForeignKey(Site, related_name="short_urls",
                              default=settings.SITE_ID)
@@ -102,8 +107,13 @@ class MyUrl(models.Model):
     def _create_redirect_url(self):
         """Checks settigns for MYURLS_USE_UTM and creates a full redirect URL"""
         if settings.MYURLS_USE_UTM == True:
-            self.redirect_url = u'%s?utm_campaign=%s' % (self.to_url,
-                self.utm_campaign)
+            # If URL has a ? in it start appending GETvars with &
+            if self.redirect_url.find('?') is not None:
+                self.redirect_url = u'%s&utm_campaign=%s' % (self.to_url,
+                                                             self.utm_campaign)
+            else:
+                self.redirect_url = u'%s?utm_campaign=%s' % (self.to_url,
+                                                             self.utm_campaign)
             if self.utm_term is not None:
                 self.redirect_url = u'%s&utm_term=%s' % (self.redirect_url, 
                                                           self.utm_term)

@@ -10,20 +10,20 @@ class MyUrlsFallbackMiddleware(object):
         """Accepts a Django request and redirects to a matching myurl"""
         if response.status_code != 404:
             return response
-        path = request.get_full_path()
+        path = request.get_full_path()[1:]
         # get the myurl - even if someone appends a trailing /
         if path.endswith('/'):
             try:
                 myurl = MyUrl(site__id__exact=settings.SITE_ID,
                               short_path=path[:path.rfind('/')]+path[path.rfind('/')+1:])
             except MyUrl.DoesNotExist:
-                pass
+                return response
         else:
             try:
-                myurl = MyUrl.objects.get(from_url__exact=settings.SITE_ID,
-                                          short_url__exact=request.path)
+                myurl = MyUrl.objects.get(hort_url__exact=request.path)
             except MyUrl.DoesNotExist:
-                pass
+                return response
+                # need to put somethign here for failed clicks.
         # Makes sure we are not redirecting to nowhere
         if myurl is not None:
             if myurl.redirect_url == '':
