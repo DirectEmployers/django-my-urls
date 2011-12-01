@@ -20,13 +20,13 @@ class MyUrlsFallbackMiddleware(object):
                 pass
         else:
             try:
-                myurl = MyUrl.objects.get(from_site__exact=settings.SITE_ID,
+                myurl = MyUrl.objects.get(from_url__exact=settings.SITE_ID,
                                           short_url__exact=request.path)
             except MyUrl.DoesNotExist:
                 pass
         # Makes sure we are not redirecting to nowhere
         if myurl is not None:
-            if r.new_path == '':
+            if myurl.redirect_url == '':
                 return http.HttpResponseGone()
         else:
             # create and save the click history

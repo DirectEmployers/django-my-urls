@@ -1,13 +1,14 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
+from example.views import MyUrlsList, create_myurl
 
 from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
-    (r'^create/?P<url>/$P<utm_source>/$P<utm_medium>/$P<utm_campaign>$', 
-      'views.create_myurl')
+    (r'^create/?P<url>/$', 'views.create_myurl'),
+    (r'^list$', MyUrlsList.as_view()),
 )
 
 urlpatterns = urlpatterns + patterns('',
