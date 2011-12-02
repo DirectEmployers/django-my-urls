@@ -27,3 +27,4 @@ def do_click(request, path):
             return HttpResponsePermanentRedirect(myurl.redirect_url)
         else:
             return HttpResponseRedirect(myurl.redirect_url)
+        
