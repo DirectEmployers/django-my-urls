@@ -2,7 +2,10 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
 from django.views.generic import ListView, CreateView, UpdateView
+from django.contrib.auth.decorators import login_required
+
 from myurls.models import MyUrl, Click
+
 from example.views import MyUrlsList, api_create_myurl
 from example.forms import CreateMyUrlForm, EditMyUrlForm
 
@@ -12,9 +15,8 @@ admin.autodiscover()
 urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     (r'^create/', CreateView.as_view(model=MyUrl,form_class=CreateMyUrlForm)),
-    (r'^edit/(?P<id>)$', 
-        UpdateView.as_view(model=MyUrl, form_class=EditMyUrlForm, 
-            query_set=MyUrl.objects.get(pk__exact=myurl_id))),
+    (r'^^edit/(?P<pk>\d+)$', 
+        login_required(UpdateView.as_view(model=MyUrl, form_class=EditMyUrlForm))),
     (r'^api/(?P<url>.*)', api_create_myurl),
     (r'^list$', ListView.as_view(model=MyUrl)),
 )
