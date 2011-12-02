@@ -1,3 +1,4 @@
+# models.py
 from django.db import models
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
@@ -33,8 +34,8 @@ class MyUrl(models.Model):
     """
 
     CHOICES = (
-        (_('301 - permanent'), '301'),
-        (_('302 - unspecified'), '302'),
+        ('301', _('301 - permanent')),
+        ('302', _('302 - temporary')),
         # Right now Django does not support these:
         #(_('303 - see other'), '303'),
         #(_('307 - temporary'), '307'),
@@ -47,8 +48,8 @@ class MyUrl(models.Model):
     from_url = models.URLField(_('Source URL'), max_length=200,
         help_text=_('URL where shorty was created'), null=True, blank=True)
     to_url = models.URLField(_('Destination URL'),
-        help_text=_('Full URL including scheme (http://, ftp://, etc...'))
-    redirect_url = models.URLField(_('URL to send user to'), max_length=300, 
+        help_text=_('Full URL including scheme (http://, ftp://, etc...).'))
+    redirect_url = models.URLField(_('URL to send user to'), max_length=400, 
                                  blank=True, null=True)
     short_path = models.CharField(_('Encoded Path'), max_length=10,
                                   blank=True, null=True, db_index=True)
@@ -107,7 +108,7 @@ class MyUrl(models.Model):
         """Checks settigns for MYURLS_USE_UTM and creates a full redirect URL"""
         if settings.MYURLS_USE_UTM == True:
             # If URL has a ? in it start appending GETvars with &
-            if self.to_url.find('?') is not None:
+            if self.to_url.find('?') is None:
                 self.redirect_url = u'%s&utm_campaign=%s' % (self.to_url,
                                                              self.utm_campaign)
             else:
