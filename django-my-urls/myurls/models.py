@@ -107,7 +107,7 @@ class MyUrl(models.Model):
         """Checks settigns for MYURLS_USE_UTM and creates a full redirect URL"""
         if settings.MYURLS_USE_UTM == True:
             # If URL has a ? in it start appending GETvars with &
-            if self.redirect_url.find('?') is not None:
+            if self.to_url.find('?') is not None:
                 self.redirect_url = u'%s&utm_campaign=%s' % (self.to_url,
                                                              self.utm_campaign)
             else:

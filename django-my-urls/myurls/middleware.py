@@ -28,8 +28,7 @@ class MyUrlsFallbackMiddleware(object):
         # see if myurl is defined
         # Makes sure we are not redirecting to nowhere
         if myurl is None:
-                return http.HttpResponseGone()
-        
+                return http.HttpResponseGone()       
         else:
             # create and save the click history
             user = None if request.user.is_anonymous else request.user
