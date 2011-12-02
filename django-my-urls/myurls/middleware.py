@@ -32,8 +32,7 @@ class MyUrlsFallbackMiddleware(object):
         
         else:
             # create and save the click history
-            if request.user is not None:
-                user = request.user
+            user = None if request.user.is_anonymous else request.user
             # Store HTTP headers if we have them
             try:
                 referrer_url = request.META.HTTP_REFERRER
@@ -60,7 +59,7 @@ class MyUrlsFallbackMiddleware(object):
                           redirect_url=myurl.redirect_url,
                           user_domain=user_domain,
                           referrer_url=referrer_url,
-                          site=settings.SITE_ID,
+                          site_id=settings.SITE_ID,
                           user=user,
                           user_ip=user_ip,
                           user_language=user_language,

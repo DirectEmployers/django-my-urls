@@ -144,7 +144,7 @@ class Click(models.Model):
     """Model for storing click history."""
     myurl = models.ForeignKey(MyUrl, related_name="clicks")
     user = models.ForeignKey(User, related_name="clicks", null=True, blank=True)
-    site = models.ForeignKey(Site, null=True, blank=True)
+    site = models.ForeignKey(Site, null=True, blank=True)    
     # We can have anonymous users, so there may be no relationship here
     user = models.ForeignKey(User, null=True, related_name="short_url_history")
     to_url = models.URLField(_('Destination  URL'), max_length=200,
@@ -164,7 +164,7 @@ class Click(models.Model):
                                      null=True, blank=True)
     referrer_url = models.URLField(_('Referring URL'), max_length=200,
                                    null=True, blank=True)
-    referrer_domain = models.CharField(_('Referring Domain'), max_length=200,
+    user_domain = models.CharField(_('Referring Domain'), max_length=200,
                                        null=True, blank=True)
     
     def __unicode__(self):
