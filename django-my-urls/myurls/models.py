@@ -87,10 +87,9 @@ class MyUrl(models.Model):
 
     def save(self, *args, **kwargs):
         """Custom save method that saves short URL to database on save()"""
-        # standard save, populate and save pattern
-        # this lets the db create the primary key, and then allows us
-        # to populate attribues.
-        super(MyUrl, self).save(*args, **kwargs) 
+        # If there is no PK, save and let the DB create one.
+        if self.pk is None:
+            super(MyUrl, self).save(*args, **kwargs) 
         # create a short url if one isn't there
         if self.short_path == None:
             # create the short path

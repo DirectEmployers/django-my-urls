@@ -10,6 +10,7 @@ class MyUrlsFallbackMiddleware(object):
         """Accepts a Django request and redirects to a matching myurl"""
         if response.status_code != 404:
             return response
+        # remove / from front of URL
         path = request.get_full_path()[1:]
         # get the myurl - even if someone appends a trailing /
         if path.endswith('/'):
