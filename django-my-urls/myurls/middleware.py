@@ -60,7 +60,7 @@ class MyUrlsFallbackMiddleware(object):
                           redirect_url=myurl.redirect_url,
                           user_domain=user_domain,
                           referrer_url=referrer_url,
-                          site=Site.objects.get_current(),
+                          site=settings.SITE_ID,
                           user=user,
                           user_ip=user_ip,
                           user_language=user_language,
