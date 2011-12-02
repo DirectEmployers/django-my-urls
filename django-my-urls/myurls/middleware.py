@@ -37,23 +37,23 @@ class MyUrlsFallbackMiddleware(object):
             # Store HTTP headers if we have them
             try:
                 referrer_url = request.META.HTTP_REFERRER
-            except: KeyError:
+            except AttributeError:
                 referrer_url = None
             try:
                 user_domain = request.META.REMOTE_HOST
-            except: KeyError:
+            except AttributeError:
                 user_domain = None
             try:
                 user_language = request.META.HTTP_ACCEPT_LANGUAGE
-            except: KeyError:
+            except AttributeError:
                 user_language = None
             try:
                 user_agent = request.META.HTTP_USER_AGENT
-            except:
+            except AttributeError:
                 user_agent = None
             try:
                 user_ip = request.META.REMOTE_ADDR
-            except:
+            except AttributeError:
                 user_ip = None
             click = Click(myurl=myurl,
                           to_url=myurl.to_url,
