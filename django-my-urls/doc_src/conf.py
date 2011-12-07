@@ -19,7 +19,7 @@ import sys, os
 sys.path.append(os.path.abspath('..'))
 sys.path.append(os.path.abspath('../example'))
 import myurls
-os.environ['DJANGO_SETTINGS_MODULE'] = 'example.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = ''
 
 # -- General configuration -----------------------------------------------------
 
