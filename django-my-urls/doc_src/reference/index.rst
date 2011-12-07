@@ -10,3 +10,6 @@ Reference
    :glob:
    
    settings
+   basex
+   models
+   

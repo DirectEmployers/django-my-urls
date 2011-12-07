@@ -15,3 +15,4 @@ or
 
 Dependencies
 ************
+django 1.3 or greater (yes, we use class based generic views)

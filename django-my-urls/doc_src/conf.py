@@ -17,6 +17,7 @@ import sys, os
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.append(os.path.abspath('..'))
+sys.path.append(os.path.abspath('../example'))
 import myurls
 os.environ['DJANGO_SETTINGS_MODULE'] = 'example.settings'
 
@@ -40,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'django-my-urls'
-copyright = u'2010, Mike Seidle'
+copyright = u'2011, DirectEmployers Foudation'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
