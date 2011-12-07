@@ -1,0 +1,20 @@
+MyUrls Example Application
+==========================
+
+This is not a feature complete application, it is a very good example of how
+you can use my.jobs to manage clicks.
+
+What it Does
+------------
+- Provides a simple api that creates short urls from GET queries. 
+  http://mysite.com/api/http://foo.com/some/really/awesome/content.html
+
+- Provides and create and update form:
+  http://mysite.com/create -- creates a new myurl
+  http//mysite.com/edit/12 -- edits myurl with pk of 12
+
+- redirects clicks using the redirect middlewre
+  http://mysite.com/ai31
+
+- redirects clicks using myurls.views.do_click
+  http://mysite.com/click/ai31

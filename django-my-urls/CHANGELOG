@@ -5,3 +5,8 @@ Django MyUrls Changelog
 -----------------------
 
 0.0.1 Release Notes
+* Supports redirection via view
+* Supports redirection via 404 fallback middlware
+* Can encode short URLS using whatever alphabet you want.
+* Supports appending UTM (Google Analytics) data to URLs
+* Supports appending additional parameters to URLS

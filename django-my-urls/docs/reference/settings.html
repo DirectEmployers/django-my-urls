@@ -1,0 +1,126 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Settings &mdash; django-my-urls 0.1beta1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1beta1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="django-my-urls 0.1beta1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+<div id="docstitle">
+	<p>django-my-urls 0.1beta1 documentation</p>
+</div>
+<div id="header">
+	<div id="title"><h1>Settings</h1></div>
+	<ul id="headerButtons">
+		<li id="toc_button"><div class="headerButton"><a href="#">Table of Contents</a></div></li>
+		<li id="page_buttons">
+			<div class="headerButton"><a href="../genindex.html" title="General Index" accesskey="I">index</a></div>
+		</li>
+	</ul>
+</div>
+
+<div id="sphinxsidebar">
+  <div class="sphinxsidebarwrapper">
+	<ul><li class="toctree-l1"><a href="../index.html">Main Page</a></li></ul>
+	<ul class="simple">
+</ul>
+
+    <div id="searchbox" style="display: none">
+      
+        <form class="search" action="../search.html" method="get">
+			<div class="search-wrapper">
+			<span class="search-left"></span>
+			<input class="prettysearch" type="text" name="q" size="18" />
+			<span class="search-right">&nbsp;</span>
+			</div>
+          <input type="submit" value="Search" class="searchbutton" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+        <p class="searchtip" style="font-size: 90%">
+        Enter search terms or a module, class or function name.
+        </p>
+    </div>
+    <script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+</div>
+
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="settings">
+<h1>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h1>
+<p>The folowing settings are available and can be set in your settings.py:</p>
+<div class="section" id="available-settings">
+<span id="id1"></span><h2>Available settings<a class="headerlink" href="#available-settings" title="Permalink to this headline">¶</a></h2>
+<p><em>MYURLS_CHARACTER_SET = &#8220;ABCabc123&#8221;</em>
+The character set used to encode URLs with. The default is all english language lowercase letters, uppercase letters and numerals.</p>
+<p><em>MYURLS_DEFAULT_REDIRECT = &#8216;301&#8217;</em>
+Default redirect to use for short URLS. 301, 302 and 303 are all valid choices. This default can be overridden when a short url is created and chan be changed by editing the Shorty.redirect_type attribute.</p>
+<p><em>MYURLS_ALLOW_ALL_SITES</em>
+If you are using the django.contrib.sites framework, MyURLs can allow short urls to work on just the site linked with the myrl or all of your sites.</p>
+<blockquote>
+<div><em>True</em>: Short URLS will work on all sites.
+<em>False</em>: Short URLS will only work on the site linked to the short URL.</div></blockquote>
+<p><em>MYURLS_USE_UTM (Google Analytics Integraton)</em>
+Activates appending UTM (Urchin Tracking Metrics) codes to urls. This allows Google Analytics to better categorize traffic that is referred via MyURLS. When set to True, the following settings should be configured:</p>
+<blockquote>
+<div><ul class="simple">
+<li>MYURLS_DEFAULT_UTM_CAMPAIGN</li>
+<li>MYURLS_DEFAULT_UTM_MEDIUM</li>
+<li>MYURLS_DEFAULT_UTM_SOURCE</li>
+<li>MYURLS_DEFAULT_UTM_CONTENT</li>
+</ul>
+</div></blockquote>
+<p>.._deprecated_settings</p>
+</div>
+<div class="section" id="deprecated-settings">
+<h2>Deprecated Settings<a class="headerlink" href="#deprecated-settings" title="Permalink to this headline">¶</a></h2>
+<p>None yet</p>
+</div>
+</div>
+
+
+          </div> 
+        </div>
+      </div>
+    <div class="footer">
+    <p>
+      &copy; Copyright 2011, DirectEmployers Foudation.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+	</p>
+    </div>
+      <div class="clearer"></div>
+    </div>
+	<div id="breadcrumbs">
+		Settings
+		</ul>
+	</div>
+	<script type="text/javascript" charset="utf-8" src="../_static/toc.js"></script>
+  </body>
+</html>

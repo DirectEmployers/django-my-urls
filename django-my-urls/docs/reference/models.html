@@ -1,0 +1,156 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Models &mdash; django-my-urls 0.1beta1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1beta1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="django-my-urls 0.1beta1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+<div id="docstitle">
+	<p>django-my-urls 0.1beta1 documentation</p>
+</div>
+<div id="header">
+	<div id="title"><h1>Models</h1></div>
+	<ul id="headerButtons">
+		<li id="toc_button"><div class="headerButton"><a href="#">Table of Contents</a></div></li>
+		<li id="page_buttons">
+			<div class="headerButton"><a href="../genindex.html" title="General Index" accesskey="I">index</a></div>
+			<div class="headerButton"><a href="../py-modindex.html" title="Python Module Index" >modules</a></div>
+		</li>
+	</ul>
+</div>
+
+<div id="sphinxsidebar">
+  <div class="sphinxsidebarwrapper">
+	<ul><li class="toctree-l1"><a href="../index.html">Main Page</a></li></ul>
+	<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../example.html">MyUrls Example Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../example.html#what-it-does">What it Does</a></li>
+</ul>
+
+    <div id="searchbox" style="display: none">
+      
+        <form class="search" action="../search.html" method="get">
+			<div class="search-wrapper">
+			<span class="search-left"></span>
+			<input class="prettysearch" type="text" name="q" size="18" />
+			<span class="search-right">&nbsp;</span>
+			</div>
+          <input type="submit" value="Search" class="searchbutton" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+        <p class="searchtip" style="font-size: 90%">
+        Enter search terms or a module, class or function name.
+        </p>
+    </div>
+    <script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+</div>
+
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-myurls.models">
+<span id="models"></span><h1>Models<a class="headerlink" href="#module-myurls.models" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="myurls.models.Click">
+<em class="property">class </em><tt class="descclassname">myurls.models.</tt><tt class="descname">Click</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#myurls.models.Click" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores click history.</p>
+<p>Logs click history and some details about the user and URL redirection that
+occured. The reason there are not a lot of detail tables (i.e referring 
+URLS) is that revisions to the MyURL model should no result in changes in 
+click history.</p>
+<p>Attributes:</p>
+<ul class="simple">
+<li>myrul &#8211; MyUrl object clicked</li>
+<li>user &#8211; user who did the clicking or none</li>
+<li>site &#8211; django site click occured on</li>
+<li>to_url &#8211; the url user was sent to without appends</li>
+<li>redirect_url &#8211; the url user was sent to with appends</li>
+<li>created &#8211; datestamp of click</li>
+<li>user_agent &#8211; user agent of user clicking</li>
+<li>user_ip &#8211; user&#8217;s ip address</li>
+<li>user_language &#8211; user&#8217;s language</li>
+<li>referrer_url &#8211; referring url reported by user browser or None</li>
+<li>user_domain &#8211; the referring domain or None</li>
+</ul>
+</dd></dl>
+
+<dl class="class">
+<dt id="myurls.models.MyUrl">
+<em class="property">class </em><tt class="descclassname">myurls.models.</tt><tt class="descname">MyUrl</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#myurls.models.MyUrl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Short url model. Domains are pulled from the django.contrib.sites.</p>
+<p>Short URLs are this models PK encoded in baseX using
+settings.SHORTY_CHARACTER_SET.</p>
+<p>Attributes:</p>
+<ul class="simple">
+<li>from_site &#8211; Site responsible for creating the shorty</li>
+<li>from_url &#8211; URL responsible for creating the shorty</li>
+<li>to_url &#8211; the destination URL</li>
+<li>short_path &#8211; the short URL&#8217;s path</li>
+<li>redirect_type &#8211; the type of redirect to return (301 and 302)</li>
+<li>notes &#8211; user notes</li>
+<li>created &#8211; creation timestamp</li>
+<li>utm_source &#8211; Google analytics source</li>
+<li>utm_medium &#8211; Google analytics medium</li>
+<li>utm_term &#8211; Google analytics search keyword</li>
+<li>utm_content &#8211; Google analytics content</li>
+<li>utm_campaign &#8211; Google analytics campaign</li>
+<li>append_text &#8211; Extra text to be appended after a &amp; or ? in url</li>
+</ul>
+<dl class="method">
+<dt id="myurls.models.MyUrl.save">
+<tt class="descname">save</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#myurls.models.MyUrl.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom save method that saves short URL to database on save()</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div> 
+        </div>
+      </div>
+    <div class="footer">
+    <p>
+      &copy; Copyright 2011, DirectEmployers Foudation.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+	</p>
+    </div>
+      <div class="clearer"></div>
+    </div>
+	<div id="breadcrumbs">
+		Models
+		</ul>
+	</div>
+	<script type="text/javascript" charset="utf-8" src="../_static/toc.js"></script>
+  </body>
+</html>

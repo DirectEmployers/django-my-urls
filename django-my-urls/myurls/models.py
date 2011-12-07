@@ -14,23 +14,20 @@ class MyUrl(models.Model):
 
     Attributes:
 
-    from_site -- Site responsible for creating the shorty
-    from_url -- URL responsible for creating the shorty
-    to_url -- the destination URL
-    short_path -- the short URL's path
-    redirect_type -- the type of redirect to return
-    notes -- user notes
-    created -- creation timestamp
-    utm_source -- Google analytics source
-    utm_medium -- Google analytics medium
-    utm_term -- Google analytics search keyword
-    utm_content -- Google analytics content
-    utm_campaign -- Google analytics campaign
-    append_text -- Extra text to be appended after a & or ? in url
+    - from_site -- Site responsible for creating the shorty
+    - from_url -- URL responsible for creating the shorty
+    - to_url -- the destination URL
+    - short_path -- the short URL's path
+    - redirect_type -- the type of redirect to return (301 and 302)
+    - notes -- user notes
+    - created -- creation timestamp
+    - utm_source -- Google analytics source
+    - utm_medium -- Google analytics medium
+    - utm_term -- Google analytics search keyword
+    - utm_content -- Google analytics content
+    - utm_campaign -- Google analytics campaign
+    - append_text -- Extra text to be appended after a & or ? in url
     
-    Methods:
-    
-    save(*args, **kwargs) -- creates short URL and saves to database.
     """
 
     CHOICES = (
@@ -142,9 +139,29 @@ class MyUrl(models.Model):
 
     
 class Click(models.Model):
-    """Model for storing click history."""
+    """Stores click history.
+    
+    Logs click history and some details about the user and URL redirection that
+    occured. The reason there are not a lot of detail tables (i.e referring 
+    URLS) is that revisions to the MyURL model should no result in changes in 
+    click history.
+    
+    Attributes:
+    
+    - myrul -- MyUrl object clicked
+    - user -- user who did the clicking or none
+    - site -- django site click occured on
+    - to_url -- the url user was sent to without appends
+    - redirect_url -- the url user was sent to with appends
+    - created -- datestamp of click
+    - user_agent -- user agent of user clicking
+    - user_ip -- user's ip address
+    - user_language -- user's language
+    - referrer_url -- referring url reported by user browser or None
+    - user_domain -- the referring domain or None
+    
+    """
     myurl = models.ForeignKey(MyUrl, related_name="clicks")
-    user = models.ForeignKey(User, related_name="clicks", null=True, blank=True)
     site = models.ForeignKey(Site, null=True, blank=True)    
     # We can have anonymous users, so there may be no relationship here
     user = models.ForeignKey(User, null=True, related_name="short_url_history")

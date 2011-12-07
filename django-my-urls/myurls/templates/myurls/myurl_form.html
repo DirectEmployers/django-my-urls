@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}MyUrls List{% endblock title %}
+{% block content %}
+    <h1>Create/Edit MyUrl</h1>
+    <p>
+     Use the following to create a MyUrl. Any values below are based on the
+     defaults from example.settings.py.
+    </p>
+    <form action="" method="post">
+    {% csrf_token %}
+    {% include 'includes/form-error-highlight.html' %}
+    <button type="submit" class="btn primary" value="submit">Submit</button>
+	  &nbsp;<button type="reset"class="btn">Reset</button>
+    </form>
+{% endblock content %}

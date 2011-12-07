@@ -5,5 +5,8 @@ recursive-include myurls/media *
 recursive-include myurls/templates *
 
 include LICENSE
+include gnu-gpl-v2.0.txt
+include gnu-gpl-v3.0.txt
+include mit-license.txt
 include README
 include *.txt

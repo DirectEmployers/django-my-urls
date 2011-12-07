@@ -11,9 +11,10 @@ class BaseX():
     """Encodes and Decodes integers using a supplied character set
 
     Attributes:
-    number -- An integer
-    encoded -- Encoded string
-    character_set -- String containing character set used to encode
+
+    - number -- An integer
+    - encoded -- Encoded string
+    - character_set -- String containing character set used to encode
     """
     encoded = ""
     character_set = \

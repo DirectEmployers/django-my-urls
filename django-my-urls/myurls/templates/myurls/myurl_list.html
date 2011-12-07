@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}MyUrls List{% endblock title %}
+{% block content %}
+    <h1>MyUrls</h1>
+    <ul>
+        {% for myurl in object_list %}
+            <li><a href="{{ myurl.short_url }}">{{ myurl.short_url }}</a> &raquo; <a href ="{{ myurl.redirect_url }}">{{ myurl.redirect_url }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

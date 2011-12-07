@@ -19,6 +19,7 @@ urlpatterns = patterns('',
         login_required(UpdateView.as_view(model=MyUrl, form_class=EditMyUrlForm))),
     (r'^api/(?P<url>.*)', api_create_myurl),
     (r'^list$', ListView.as_view(model=MyUrl)),
+    (r'^history$', ListView.as_view(model=Click)),
 )
 
 urlpatterns = urlpatterns + patterns('',

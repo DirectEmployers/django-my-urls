@@ -4,7 +4,11 @@ from django.conf import settings
 from myurls.models import MyUrl, Click
 
 class MyUrlsFallbackMiddleware(object):
-    """Checks for short URL and redirects on 404s"""
+    """Checks for short URL and redirects on 404s.
+    
+    Django uses FallbackMiddleware when a URL isn't found. You can control what 
+    order fallbacks occur by changing the order of FallBackMiddlewares in 
+    your app's settings.py."""
        
     def process_response(self, request, response):
         """Accepts a Django request and redirects to a matching myurl"""

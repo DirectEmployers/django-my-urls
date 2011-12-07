@@ -23,16 +23,16 @@ DESC = " ".join(__import__('myurls').__doc__.splitlines()).strip()
 setup(
     name = "django-my-urls",
     version = __import__('myurls').get_version().replace(' ', '-'),
-    url = 'https://github.com/callowayproject/django-app-skeleton.git',
+    url = 'https://github.com/DirectEmployers/django-my-urls',
     author = 'Mike Seidle',
     author_email = 'mike@directemployers.org',
-    description = DESC,
+    description = 'URL shortner and clickserver for Django',
     long_description = get_readme(),
     packages = find_packages(),
     include_package_data = True,
     install_requires = read_file('requirements.txt'),
     classifiers = [
-        'License :: OSI Approved :: Apache Software License',
+        'License :: OSI Approved :: MIT License',
         'Framework :: Django',
     ],
 )
