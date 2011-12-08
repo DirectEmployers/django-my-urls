@@ -8,6 +8,9 @@
 *wpr
 *wpu
 
+# Documentation Artificts
+*.doctree
+*.pickle
 
 # Log Files
 *.log
