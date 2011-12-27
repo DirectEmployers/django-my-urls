@@ -4,7 +4,8 @@ DEBUG = True
 #TEMPLATE_DEBUG = DEBUG
 TEMPLATE_DEBUG = True
 import os, sys
-APP = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+#APP = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+APP = os.path.abspath(os.path.dirname(__file__))
 PROJ_ROOT = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(APP)
 
@@ -30,7 +31,7 @@ DATABASES = {
 # although not all choices may be available on all operating systems.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/New_York'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -100,7 +101,7 @@ MIDDLEWARE_CLASSES = (
     'myurls.middleware.MyUrlsFallbackMiddleware',
 )
 
-ROOT_URLCONF = 'example.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -117,6 +118,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'myurls',
+    'example'
 )
 
 # MyUrl Specific Settings
@@ -140,3 +142,5 @@ try:
     from local_settings import *
 except:
     pass
+
+TEMPLATE_DEBUG = True
