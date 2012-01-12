@@ -12,8 +12,6 @@ static-files/content_profile
 *~
 *-
 *#
-*wpr
-*wpu
 .project
 .pydevproject
 .tmp*
@@ -36,3 +34,5 @@ Icon?
 Thumbs.db
 *.directory
 *.settings
+
+Databases 
