@@ -11,6 +11,6 @@ proj.directory-list = [{'dirloc': loc('.'),
                         'recursive': True,
                         'watch_for_changes': True}]
 proj.file-type = 'shared'
-proj.main-file = loc('django-my-urls/manage.py')
-testing.test-framework = {loc('django-my-urls/manage.py'): ':internal django'\
-        'test'}
+proj.main-file = loc('django-my-urls/example/manage.py')
+testing.test-framework = {loc('django-my-urls/example/manage.py'): ':interna'\
+        'l djangotest'}

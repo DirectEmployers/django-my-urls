@@ -26,8 +26,7 @@ class MyUrl(models.Model):
     - utm_term -- Google analytics search keyword
     - utm_content -- Google analytics content
     - utm_campaign -- Google analytics campaign
-    - append_text -- Extra text to be appended after a & or ? in url
-    
+    - append_text -- Extra text to be appended after a & or ? in url 
     """
 
     CHOICES = (
@@ -81,7 +80,7 @@ class MyUrl(models.Model):
         blank=True,
         help_text=_('Additional text to append to url after &'),
         default = settings.MYURLS_DEFAULT_APPEND)
-    # add QC fields and a manage.py command to check URLs 
+    # TODO add QC fields and a manage.py command to check URLs 
 
     def save(self, *args, **kwargs):
         """Custom save method that saves short URL to database on save()"""
@@ -143,7 +142,7 @@ class Click(models.Model):
     
     Logs click history and some details about the user and URL redirection that
     occured. The reason there are not a lot of detail tables (i.e referring 
-    URLS) is that revisions to the MyURL model should no result in changes in 
+    URLS) is that revisions to the MyURL model should not result in changes in 
     click history.
     
     Attributes:
