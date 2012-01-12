@@ -1,0 +1,38 @@
+# Compiled
+*.pyc
+*.db
+*.flv
+*.wmv
+
+# Misc
+static-files/100x50
+static-files/content_profile
+
+# Editor aritfacts
+*~
+*-
+*#
+*wpr
+*wpu
+.project
+.pydevproject
+.tmp*
+content_226
+
+# Secret Stuff
+secrets*
+
+# Local Settings
+local_settings.py
+
+# Log Files
+*.log
+
+# OS generated
+.DS_Store*
+.DS_Store
+ehthumbs.db
+Icon?
+Thumbs.db
+*.directory
+*.settings
