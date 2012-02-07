@@ -1,2 +1,9 @@
 [Desktop Entry]
 Icon=folder-violet
+
+[Dolphin]
+Timestamp=2012,1,24,10,39,8
+Version=2
+
+[Settings]
+ShowDotFiles=true

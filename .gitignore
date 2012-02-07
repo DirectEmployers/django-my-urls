@@ -35,4 +35,6 @@ Thumbs.db
 *.directory
 *.settings
 
-# Databases 
+# Secret stuff. Shhhhh.
+secret.py
+secrets.py
